@@ -1,0 +1,50 @@
+services:
+  postgres:
+    build: "./postgres"
+    restart: "always"
+    env_file: .env
+    environment:
+      POSTGRES_DB: ${DB_NAME}
+      POSTGRES_USER: ${DB_USER_ADMIN}
+      POSTGRES_PASSWORD: ${DB_PASSWORD_ADMIN}
+      DB_USER: ${DB_USER}
+      DB_PASSWORD: ${DB_PASSWORD}
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    networks:
+      - db
+  server:
+    build:
+      context: .
+      dockerfile: server/Dockerfile
+    ports:
+      - "8080:8080"
+    depends_on:
+      - postgres
+    env_file: .env
+    volumes:
+      - ./frontend:/app/frontend
+      - ./storage/cover:/app/storage/cover
+    networks:
+      - db
+      - backend
+  streaming:
+    build:
+      context: .
+      dockerfile: service-streaming/Dockerfile
+    expose:
+      - "3001"
+    depends_on:
+      - postgres
+    env_file: .env
+    volumes:
+      - ./storage/song:/app/storage/song
+    networks:
+      - backend
+volumes:
+  postgres-data:
+networks:
+  db:
+    driver: bridge
+  backend:
+    driver: bridge
