@@ -15,6 +15,7 @@ services:
     build:
       context: .
       dockerfile: server/Dockerfile
+    restart: always
     ports:
       - "8080:8080"
     depends_on:
