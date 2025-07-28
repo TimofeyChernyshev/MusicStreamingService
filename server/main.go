@@ -9,6 +9,7 @@ import (
 	"os"
 
 	"github.com/TimofeyChernyshev/MusicStreamingService/db"
+	"github.com/TimofeyChernyshev/MusicStreamingService/models"
 	"github.com/gin-gonic/gin"
 	_ "github.com/lib/pq"
 )
@@ -20,31 +21,25 @@ func main() {
 	r.Static("/player-static", "./frontend/player")
 	r.Static("/storage/cover", "./storage/cover")
 
-	connStr := fmt.Sprintf("user=%s password=%s dbname=%s host=%s sslmode=disable",
-		os.Getenv("DB_USER"),
-		os.Getenv("DB_PASSWORD"),
-		os.Getenv("DB_NAME"),
-		os.Getenv("DB_HOST"),
-	)
-
-	repo_song, err := db.NewSongRepository(connStr)
-	if err != nil {
-		log.Println(err)
+	config := models.Config{
+		Host:           os.Getenv("DB_HOST"),
+		Port:           os.Getenv("DB_PORT"),
+		Admin_User:     os.Getenv("DB_USER_ADMIN"),
+		Admin_Password: os.Getenv("DB_PASSWORD_ADMIN"),
+		DBName:         os.Getenv("DB_NAME"),
+		SSLMode:        os.Getenv("DB_SSLMODE"),
+		App_User:       os.Getenv("DB_USER"),
+		App_Password:   os.Getenv("DB_PASSWORD"),
 	}
-	defer repo_song.Close()
 
-	repo_album, err := db.NewAlbumRepository(connStr)
-	if err != nil {
-		log.Println(err)
-	}
-	defer repo_album.Close()
+	models.InitDB(config)
 
 	r.GET("api/albums", func(c *gin.Context) {
-		repo_album.GetAlbums(c)
+		db.GetAlbums(c)
 	})
 
 	r.GET("api/albums/:id/tracks", func(c *gin.Context) {
-		repo_song.GetTracks(c)
+		db.GetTracks(c)
 	})
 
 	r.GET("api/stream", func(c *gin.Context) {

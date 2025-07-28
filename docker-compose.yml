@@ -1,7 +1,7 @@
 services:
   postgres:
-    build: "./postgres"
-    restart: "always"
+    image: postgres:14.3
+    restart: always
     env_file: .env
     environment:
       POSTGRES_DB: ${DB_NAME}
@@ -9,8 +9,6 @@ services:
       POSTGRES_PASSWORD: ${DB_PASSWORD_ADMIN}
       DB_USER: ${DB_USER}
       DB_PASSWORD: ${DB_PASSWORD}
-    volumes:
-      - postgres-data:/var/lib/postgresql/data
     networks:
       - db
   server:
@@ -41,8 +39,6 @@ services:
       - ./storage/song:/app/storage/song
     networks:
       - backend
-volumes:
-  postgres-data:
 networks:
   db:
     driver: bridge
