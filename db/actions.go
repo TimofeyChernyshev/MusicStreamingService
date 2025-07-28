@@ -13,7 +13,7 @@ func GetTracks(c *gin.Context) {
 
 	if err := models.AppDB.Find(&songs).Error; err != nil {
 		log.Println("Database query error: ", err)
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "failed to fetch albums"})
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
 
@@ -25,7 +25,7 @@ func GetAlbums(c *gin.Context) {
 
 	if err := models.AppDB.Find(&albums).Error; err != nil {
 		log.Println("Database query error: ", err)
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "failed to fetch albums"})
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
 
