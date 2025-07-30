@@ -38,7 +38,6 @@ func CreateAppUser(db *gorm.DB, cfg Config) {
 }
 
 func InitDB(cfg Config) {
-
 	adminDSN := fmt.Sprintf("host=%s user=%s password=%s dbname=%s port=%s sslmode=%s",
 		cfg.Host, cfg.Admin_User, cfg.Admin_Password, cfg.DBName, cfg.Port, cfg.SSLMode)
 
