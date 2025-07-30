@@ -35,12 +35,21 @@ services:
       dockerfile: service-streaming/Dockerfile
     expose:
       - "3001"
-    depends_on:
-      - postgres
     env_file: .env
     volumes:
       - ./storage/song:/app/storage/song
     networks:
+      - backend
+  auth:
+    build:
+      context: .
+      dockerfile: service-auth/Dockerfile
+    restart: always
+    ports:
+      - "3002:3002"
+    env_file: .env
+    networks:
+      - db
       - backend
 networks:
   db:
