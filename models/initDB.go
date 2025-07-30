@@ -35,6 +35,11 @@ func CreateAppUser(db *gorm.DB, cfg Config) {
 		log.Println(err)
 		return
 	}
+	err = db.Exec(fmt.Sprintf("GRANT USAGE, SELECT ON ALL SEQUENCES IN SCHEMA public TO %s", cfg.App_User)).Error
+	if err != nil {
+		log.Println(err)
+		return
+	}
 }
 
 func InitDB(cfg Config) {
