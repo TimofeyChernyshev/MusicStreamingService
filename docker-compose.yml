@@ -9,6 +9,8 @@ services:
       POSTGRES_PASSWORD: ${DB_PASSWORD_ADMIN}
       DB_USER: ${DB_USER}
       DB_PASSWORD: ${DB_PASSWORD}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
     networks:
       - db
   server:
@@ -45,3 +47,5 @@ networks:
     driver: bridge
   backend:
     driver: bridge
+volumes:
+  postgres_data:
