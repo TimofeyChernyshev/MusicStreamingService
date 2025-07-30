@@ -6,8 +6,10 @@ RUN go mod download
 
 COPY server/ ./ 
 COPY db/ ./db/
-COPY models/ ./models/
+COPY model/ ./model/
+COPY middlewares/ ./middlewares/
 COPY frontend/ ./frontend/
+COPY utils/ ./utils/
 COPY storage/cover ./storage/cover
 
 RUN go build -o /app/server

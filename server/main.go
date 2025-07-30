@@ -9,6 +9,7 @@ import (
 	"os"
 
 	"github.com/TimofeyChernyshev/MusicStreamingService/db"
+	"github.com/TimofeyChernyshev/MusicStreamingService/middlewares"
 	"github.com/TimofeyChernyshev/MusicStreamingService/models"
 	"github.com/gin-gonic/gin"
 	_ "github.com/lib/pq"
@@ -42,7 +43,7 @@ func main() {
 		db.GetTracks(c)
 	})
 
-	r.GET("api/stream", func(c *gin.Context) {
+	r.GET("api/stream", middlewares.IsAuthorized(), func(c *gin.Context) {
 		track := c.Query("track")
 		if track == "" {
 			log.Println("error: track parameter is required")
