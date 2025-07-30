@@ -22,6 +22,9 @@ func main() {
 	r.Static("/player-static", "./frontend/player")
 	r.Static("/storage/cover", "./storage/cover")
 
+	r.StaticFile("/auth", "./frontend/auth/auth.html")
+	r.Static("/auth-static", "./frontend/auth")
+
 	config := models.Config{
 		Host:           os.Getenv("DB_HOST"),
 		Port:           os.Getenv("DB_PORT"),
