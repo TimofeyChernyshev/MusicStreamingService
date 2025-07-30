@@ -6,7 +6,7 @@ RUN go mod download
 
 COPY service-auth/ ./ 
 COPY db/ ./db/
-COPY model/ ./model/
+COPY models/ ./models/
 COPY utils/ ./utils/
 
 RUN go build -o /app/auth .

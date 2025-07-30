@@ -6,7 +6,7 @@ RUN go mod download
 
 COPY server/ ./ 
 COPY db/ ./db/
-COPY model/ ./model/
+COPY models/ ./models/
 COPY middlewares/ ./middlewares/
 COPY frontend/ ./frontend/
 COPY utils/ ./utils/
